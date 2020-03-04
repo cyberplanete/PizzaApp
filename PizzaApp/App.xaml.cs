@@ -10,7 +10,14 @@ namespace PizzaApp
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            var navigationPage = new NavigationPage(new MainPage());
+
+            MainPage = navigationPage;
+
+            navigationPage.BackgroundColor = Color.FromHex("#1abbd4");
+
+
+
         }
 
         protected override void OnStart()

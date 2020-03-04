@@ -114,6 +114,16 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\iPhoneXR.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\hd47.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\hd55.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\iphoneX.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2x.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\retina4.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\retina4-1.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2x-1.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\iphoneXMax.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -126,6 +136,16 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.0.0.425677" />
     <PackageReference Include="Xamarin.Essentials" Version="1.0.1" />
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pizza_logo.png" />
+    <BundleResource Include="Resources\sort_fav.png" />
+    <BundleResource Include="Resources\sort_nom.png" />
+    <BundleResource Include="Resources\sort_none.png" />
+    <BundleResource Include="Resources\sort_prix.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\PizzaApp\PizzaApp.projitems" Label="Shared" />

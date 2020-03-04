@@ -20,5 +20,10 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pizza.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)extensions\Extensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)extensions\" />
   </ItemGroup>
 </Project>
