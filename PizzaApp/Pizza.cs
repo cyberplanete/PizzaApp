@@ -5,20 +5,20 @@ namespace PizzaApp
 {
     public class Pizza
     {
-        public string Nom { get; set; }
+        public string nom { get; set; }
 
-        public int Prix { get; set; }
+        public int prix { get; set; }
 
-        public string[] Ingredients { get; set; }
+        public string[] ingredients { get; set; }
 
-        public string ImageURL { get; set; }
+        public string imageURL { get; set; }
 
 
-        public string PrixEuros { get { return Prix + " €"; } }
+        public string PrixEuros { get { return prix + " €"; } }
 
-        public string IngredientStr { get { return String.Join(" , " , Ingredients ); } } 
+        public string IngredientStr { get { return String.Join(" , " , ingredients ); } } 
 
-        public string Titre { get { return Nom.ToPremiereLettreMajuscule(); } }
+        public string Titre { get { return nom.ToPremiereLettreMajuscule(); } }
 
         public Pizza()
         {
