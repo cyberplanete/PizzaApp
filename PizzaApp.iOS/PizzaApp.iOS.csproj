@@ -152,6 +152,8 @@
     <BundleResource Include="Resources\sort_nom.png" />
     <BundleResource Include="Resources\sort_none.png" />
     <BundleResource Include="Resources\sort_prix.png" />
+    <BundleResource Include="Resources\star1.png" />
+    <BundleResource Include="Resources\star2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\PizzaApp\PizzaApp.projitems" Label="Shared" />

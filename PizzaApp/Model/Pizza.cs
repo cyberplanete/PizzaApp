@@ -11,7 +11,7 @@ namespace PizzaApp
 
         public string[] ingredients { get; set; }
 
-        public string imageURL { get; set; }
+        public string imageUrl { get; set; }
 
 
         public string PrixEuros { get { return prix + " €"; } }

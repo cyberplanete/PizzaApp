@@ -26,6 +26,7 @@ namespace PizzaApp
         private e_tri filtre = e_tri.TRI_AUCUN;
 
         private List<Pizza> pizzas;
+        private List<string> pizzasFav = new List<string>();
         const string KEY_TRI = "tri";
 
         string tempJsonFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "tempPizzas.json");
@@ -36,12 +37,15 @@ namespace PizzaApp
         {
             InitializeComponent();
 
+            pizzasFav.Add("4 fromages");
+            pizzasFav.Add("indienne");
+            pizzasFav.Add("tartiflette");
 
             if (Application.Current.Properties.ContainsKey(KEY_TRI))
             {
                 filtre = (e_tri)Application.Current.Properties[KEY_TRI];
                 imageButtonFiltre.Source = GetImageButtonNameFiltreFromTri(filtre);
-
+               
             }
             filtre = e_tri.TRI_AUCUN; //string pizzasJson = "[\n\t{ \"nom\": \"4 fromages\", \"ingredients\": [ \"cantal\", \"mozzarella\", \"fromage de chèvre\", \"gruyère\" ], \"prix\": 11, \"imageUrl\": \"https://www.galbani.fr/wp-content/uploads/2017/07/pizza_filant_montage_2_3.jpg\"},\n\t{ \"nom\": \"tartiflette\", \"ingredients\": [ \"pomme de terre\", \"oignons\", \"crème fraiche\", \"lardons\", \"mozzarella\" ], \"prix\": 14, \"imageUrl\": \"https://cdn.pizzamatch.com/1/35/1375105305-pizza-napolitain-630.JPG?1375105310\"},\n\t{ \"nom\": \"margherita\", \"ingredients\": [ \"sauce tomate\", \"mozzarella\", \"basilic\" ], \"prix\": 7, \"imageUrl\": \"https://www.misteriosocultos.com/wp-content/uploads/2018/12/pizza.jpg\"},\n\t{ \"nom\": \"indienne\", \"ingredients\": [ \"curry\", \"mozzarella\", \"poulet\", \"poivron\", \"oignon\", \"coriandre\" ], \"prix\": 10, \"imageUrl\": \"https://assets.afcdn.com/recipe/20160519/15342_w1024h768c1cx3504cy2338.jpg\"},\n\t{ \"nom\": \"mexicaine\", \"ingredients\": [ \"boeuf\", \"mozzarella\", \"maïs\", \"tomates\", \"oignon\", \"coriandre\" ], \"prix\": 13, \"imageUrl\": \"https://fac.img.pmdstatic.net/fit/http.3A.2F.2Fprd2-bone-image.2Es3-website-eu-west-1.2Eamazonaws.2Ecom.2FFAC.2Fvar.2Ffemmeactuelle.2Fstorage.2Fimages.2Fminceur.2Fastuces-minceur.2Fminceur-choix-pizzeria-47943.2F14883894-1-fre-FR.2Fminceur-comment-faire-les-bons-choix-a-la-pizzeria.2Ejpg/750x562/quality/80/crop-from/center/minceur-comment-faire-les-bons-choix-a-la-pizzeria.jpeg\"},\n\t{ \"nom\": \"chèvre et miel\", \"ingredients\": [ \"miel\", \"mozzarella\", \"fromage de chèvre\", \"roquette\"], \"prix\": 10, \"imageUrl\": \"http://gfx.viberadio.sn/var/ezflow_site/storage/images/news/conso-societe/les-4-aliments-a-eviter-de-consommer-le-soir-00018042/155338-1-fre-FR/Les-4-aliments-a-eviter-de-consommer-le-soir.jpg\"},\n\t{ \"nom\": \"napolitaine\", \"ingredients\": [ \"sauce tomate\", \"mozzarella\", \"anchois\", \"câpres\"], \"prix\": 9, \"imageUrl\": \"https://www.fourchette-et-bikini.fr/sites/default/files/pizza_tomate_mozzarella.jpg\"},\n\t{ \"nom\": \"kebab\", \"ingredients\": [ \"poulet\", \"oignons\", \"sauce tomate\", \"sauce kebab\", \"mozzarella\"], \"prix\": 11, \"imageUrl\": \"https://res.cloudinary.com/serdy-m-dia-inc/image/upload/f_auto/fl_lossy/q_auto:eco/x_0,y_0,w_3839,h_2159,c_crop/w_576,h_324,c_scale/v1525204543/foodlavie/prod/recettes/pizza-au-chorizo-et-fromage-cheddar-en-grains-2421eadb\"},\n\t{ \"nom\": \"louisiane\", \"ingredients\": [ \"poulet\", \"champignons\", \"poivrons\", \"oignons\", \"sauce tomate\", \"mozzarella\"], \"prix\": 12, \"imageUrl\": \"http://www.fraichementpresse.ca/image/policy:1.3167780:1503508221/Pizza-dejeuner-maison-basilic-et-oeufs.jpg?w=700&$p$w=13b13d9\"},\n\t{ \"nom\": \"orientale\", \"ingredients\": [ \"merguez\", \"champignons\", \"sauce tomate\", \"mozzarella\"], \"prix\": 11, \"imageUrl\": \"https://www.atelierdeschefs.com/media/recette-e30299-pizza-pepperoni-tomate-mozza.jpg\"},\n\t{ \"nom\": \"hawaïenne\", \"ingredients\": [ \"jambon\", \"ananas\", \"sauce tomate\", \"mozzarella\"], \"prix\": 12, \"imageUrl\": \"https://www.atelierdeschefs.com/media/recette-e16312-pizza-quatre-saisons.jpg\"},\n\t{ \"nom\": \"reine\", \"ingredients\": [ \"jambon\", \"champignons\", \"sauce tomate\", \"mozzarella\"], \"prix\": 8, \"imageUrl\": \"https://static.cuisineaz.com/400x320/i96018-pizza-reine.jpg\"}\n]";
             Console.WriteLine("ETAPE 1");
@@ -55,7 +59,7 @@ namespace PizzaApp
                 {
                     if (pizzas != null)
                     {
-                        listeViewPizzas.ItemsSource = GetPizzasFromTri(filtre, pizzas);
+                        listeViewPizzas.ItemsSource = GetPizzaCells(GetPizzasFromTri(filtre, pizzas), pizzasFav);
                     }
                 
                     listeViewPizzas.IsRefreshing = false;
@@ -63,8 +67,6 @@ namespace PizzaApp
 
                 });
             });
-
-
 
             activityIndicator.IsVisible = true;
             listeViewPizzas.IsVisible = false;
@@ -76,7 +78,7 @@ namespace PizzaApp
                 if (!string.IsNullOrEmpty(pizzasjson))
                 {
                     pizzas = JsonConvert.DeserializeObject<List<Pizza>>(pizzasjson);
-                    listeViewPizzas.ItemsSource = GetPizzasFromTri(filtre , pizzas);
+                    listeViewPizzas.ItemsSource = GetPizzaCells(GetPizzasFromTri(filtre , pizzas), pizzasFav);
                     listeViewPizzas.IsVisible = true;
                     activityIndicator.IsVisible = false;
                 }
@@ -89,7 +91,7 @@ namespace PizzaApp
 
                 if(pizzas != null)
                 {
-                    listeViewPizzas.ItemsSource = GetPizzasFromTri(filtre, pizzas);
+                    listeViewPizzas.ItemsSource = GetPizzaCells(GetPizzasFromTri(filtre, pizzas), pizzasFav);
                 }
                 
                 activityIndicator.IsVisible = false;
@@ -111,7 +113,7 @@ namespace PizzaApp
             var webclient = new WebClient();
             //Accès via Json
             const string URL = "https://drive.google.com/uc?export=download&id=1fS7tNh0FCxopePRIW75AwjaIYqvI_vHV";
-
+            //const string URL = "https://codeavecjonathan.com/res/pizzas_app_1.json";
             //Using peut également être utilsé sur une partie du code
             using (var webClient = new WebClient())
             {
@@ -196,7 +198,7 @@ namespace PizzaApp
 
         void Filtre_Button_Clicked(object sender, System.EventArgs e)
         {
-            Console.WriteLine("Filtre boutton");
+            Console.WriteLine("Filtre boutton clicked");
             if (filtre == e_tri.TRI_AUCUN)
             {
 
@@ -213,7 +215,7 @@ namespace PizzaApp
 
             }
             imageButtonFiltre.Source = GetImageButtonNameFiltreFromTri(filtre);
-            listeViewPizzas.ItemsSource = GetPizzasFromTri(filtre, pizzas);
+            listeViewPizzas.ItemsSource = GetPizzaCells( GetPizzasFromTri(filtre, pizzas), pizzasFav );
 
             Application.Current.Properties[KEY_TRI] = (int)filtre;
             Application.Current.SavePropertiesAsync();
@@ -233,14 +235,14 @@ namespace PizzaApp
                     {
 
                         // listPizzasFiltre = pizzas.OrderBy(x => x.Titre).ToList(); Autre méthode
-                        List<Pizza> listPizzasFiltre = new List<Pizza>(pizzas);
+                        List<Pizza> listPizzasFiltre = new List<Pizza>(list_pizzas);
 
                         listPizzasFiltre.Sort((p1, p2) => { return p1.Titre.CompareTo(p2.Titre); });
                         return listPizzasFiltre;
                     }
                 case e_tri.TRI_PRIX:
                     {
-                        List<Pizza> listPizzasFiltre = new List<Pizza>(pizzas);
+                        List<Pizza> listPizzasFiltre = new List<Pizza>(list_pizzas);
                         listPizzasFiltre = pizzas.OrderBy(x => x.prix).ToList();
                         return listPizzasFiltre;
                     }
@@ -261,6 +263,24 @@ namespace PizzaApp
             }
 
             return "sort_none.png";
+        }
+
+        private List<PizzaCell> GetPizzaCells(List<Pizza> pizzas , List<string> list)
+        {
+            List<PizzaCell> pizzaCells = new List<PizzaCell>();
+
+            if(pizzas == null)
+            {
+                return pizzaCells;
+            }
+
+            foreach(Pizza pizza in pizzas)
+            {
+                bool isFav = list.Contains(pizza.nom);
+                pizzaCells.Add(new PizzaCell { pizza = pizza, IsFavorite = isFav });
+            }
+
+            return pizzaCells;
         }
 
     }
