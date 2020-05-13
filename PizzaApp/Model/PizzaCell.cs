@@ -19,15 +19,20 @@ namespace PizzaApp
         // depuis le xaml Source="{Binding ImageSourceFav}" Command="FavClickCommand"
         public ICommand FavClickCommand { get; set; }
 
+        public Action<PizzaCell> favChangedAction { get; set; }
+
         public PizzaCell()
         {
             FavClickCommand = new Command((obj) =>
                 {
-                    Console.WriteLine("FavClickCommand");
+                    string paramString = obj as string; 
+                    Console.WriteLine("FavClickCommand:" + paramString);
                     //Si true alors faux, si faux alors vrai -- Permet d'alterner l'image
                     IsFavorite = !IsFavorite;
                     //Binding Xaml de ImageSourceFav -- Mise à jour de l'image favoris
                     OnPropertyChanged("ImageSourceFav");
+                    
+                    favChangedAction.Invoke(this);
                 }
             );
         }

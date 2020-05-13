@@ -58,7 +58,7 @@
                                        VerticalOptions="Center"
                                         HorizontalOptions="End"
                                         HorizontalTextAlignment="End" TextColor="Black" FontSize="20"/>
-                                <ImageButton BackgroundColor="Transparent" Source="{Binding ImageSourceFav}" Command="{Binding FavClickCommand}" WidthRequest="30"/>
+                                <ImageButton BackgroundColor="Transparent" Source="{Binding ImageSourceFav}" Command="{Binding FavClickCommand}" CommandParameter="{Binding pizza.nom}" WidthRequest="30"/>
                             </StackLayout>
                             
                         </Grid>
