@@ -20,7 +20,8 @@ namespace PizzaApp
         {
             TRI_AUCUN,
             TRI_NOM,
-            TRI_PRIX
+            TRI_PRIX,
+            TRI_FAV
         }
 
         private e_tri filtre = e_tri.TRI_AUCUN;
@@ -211,8 +212,12 @@ namespace PizzaApp
             }
             else if (filtre == e_tri.TRI_PRIX)
             {
-                filtre = e_tri.TRI_AUCUN;
+                filtre = e_tri.TRI_FAV;
 
+            }
+            else if(filtre == e_tri.TRI_FAV)
+            {
+                 filtre = e_tri.TRI_AUCUN;
             }
             imageButtonFiltre.Source = GetImageButtonNameFiltreFromTri(filtre);
             listeViewPizzas.ItemsSource = GetPizzaCells( GetPizzasFromTri(filtre, pizzas), pizzasFav );
@@ -231,6 +236,8 @@ namespace PizzaApp
 
             switch (filtre)
             {
+                //Tri par ordre aplhabétique pour ces deux cas.
+                case e_tri.TRI_FAV:
                 case e_tri.TRI_NOM:
                     {
 
@@ -243,9 +250,11 @@ namespace PizzaApp
                 case e_tri.TRI_PRIX:
                     {
                         List<Pizza> listPizzasFiltre = new List<Pizza>(list_pizzas);
-                        listPizzasFiltre = pizzas.OrderBy(x => x.prix).ToList();
+                        listPizzasFiltre.OrderBy(x => x.prix).ToList();
                         return listPizzasFiltre;
                     }
+
+                
             }
 
             return list_pizzas;
@@ -260,6 +269,8 @@ namespace PizzaApp
                     return "sort_nom.png";
                 case e_tri.TRI_PRIX:
                     return "sort_prix.png";
+                case e_tri.TRI_FAV:
+                    return "sort_fav.png";
             }
 
             return "sort_none.png";
@@ -295,7 +306,19 @@ namespace PizzaApp
             foreach(Pizza pizza in pizzas)
             {
                 bool isFav = list.Contains(pizza.nom);
-                pizzaCells.Add(new PizzaCell { pizza = pizza, IsFavorite = isFav, favChangedAction =  OnFavPizzaChanged});
+                if (filtre == e_tri.TRI_FAV)
+                {
+                    if (isFav)
+                    {
+                        pizzaCells.Add(new PizzaCell { pizza = pizza, IsFavorite = isFav, favChangedAction = OnFavPizzaChanged });
+                    }
+                    
+                    
+                }else
+                {
+                    pizzaCells.Add(new PizzaCell { pizza = pizza, IsFavorite = isFav, favChangedAction =  OnFavPizzaChanged});
+                }
+                
             }
 
             return pizzaCells;
